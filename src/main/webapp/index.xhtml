@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Sistema de Gerenciamento de NF-e / NFS-e</title>
+
+	<h:outputStylesheet library="nfx" name="core/css/font-awesome.min.css" />
+    <h:outputStylesheet library="nfx" name="core/css/simple-line-icons.css" />
+
+    <!-- Main styles for this application -->
+    <h:outputStylesheet library="nfx" name="core/css/style.css" rel="stylesheet" />
+
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		crossorigin="anonymous" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<script type="text/javascript">  
+			function handleLoginRequest(xhr, status, args) {
+				document.getElementById("loginButton").value = "Conectando...";
+				alert('leonardo');
+				if(!args.loggedIn) {
+					PF('dlg').jq.effect("explode", { times:5 }, 100);
+				}
+				else {  
+					window.location.assign("./views/principal.jsf");
+				}  
+			}  
+		</script>
+	<style>
+#all .conteudo .login_box {
+	background: white;
+	padding: 30px 60px;
+	width: 50%;
+	margin: 0 auto;
+	color: darkblue;
+	border: 1px solid darkblue;
+	border-color: darkblue;
+/* 	border-style: double; */
+}
+
+.linha.submit {
+	padding-top: 20px;
+	text-align: right;
+}
+
+.linha {
+	display: block;
+	line-height: 34px;
+	margin: 1px 0;
+	padding: 5px 0 0 0;
+	position: relative;
+}
+
+geral.css: 1
+*, :after, :before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.center {
+	width: 60%;
+	margin: 0 auto;
+	position: relative;
+}
+
+.right {
+	width: 100%;
+	margin: 0 auto;
+	position: left;
+}
+
+div {
+	display: block;
+}
+
+Inherited from div.conteudo
+geral.css: 1
+#all .conteudo {
+	background: #fff url(../img/bg_conteudo.jpg) no-repeat center center;
+	padding: 5pc 0;
+	text-align: center;
+}
+
+Inherited from body
+geral.css: 1
+body {
+	background: darkblue;
+	line-height: 1.3;
+	font-family: knowledgeLight, Helvetica, Verdana, serif !important;
+	font-size: 18px;
+	color: #666;
+	font-weight: 400;
+	text-align: center;
+}
+
+Inherited from html
+geral.css: 1
+html {
+	overflow-y: scroll;
+	font-size: 100%;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+
+Pseudo ::before element
+geral.css: 1
+*, :after, :before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+Pseudo ::after element
+geral.css: 1
+*, :after, :before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.input_btn:hover {
+	color: #FFF;
+	text-decoration: none;
+	background: white;
+}
+</style>
+</h:head>
+
+<h:body>
+
+	<div id="all">
+		<header style="background: darkblue;">
+		<div class="center">
+			<div class="logo">
+				<p:graphicImage library="nfx" name="core/img/logo_nfx.png" />
+			</div>
+		</div>
+		</header>
+		<div class="conteudo">
+			<div class="center container-fluid animated fadeIn">
+				<h2>Sistema de emissão de NF-e / NFS-e</h2>
+				<br/>
+				<br/>
+				<div class="login_box" style="border-radius: 20px;">
+					<h:form id="formNf" prependId="false">
+
+						<p:growl id="growl" showDetail="true" life="3000" />
+
+
+						<div class="linha">
+							<span class="linha" id="span_error">Faça seu login</span>
+						</div>
+						
+						<h:outputLabel style="background-color: red;" value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+						<div class="input-group">
+
+							<p:inputText class="form-control" value="#{auth.user}"
+								name="username" id="username" placeholder="Login" />
+							<span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+						</div>
+
+						<div class="input-group">
+
+							<p:password type="password" class="form-control"
+								value="#{auth.senha}" name="password" id="password"
+								placeholder="Senha" />
+							<span class="input-group-addon"><i
+								class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+						</div>
+
+						<div class="linha submit">
+
+							<p:commandButton id="loginButton" value="ENTRAR" ajax="false" 
+								update="growl loginButton" class="input_btn"
+								style="color: darkblue; border-radius: 5px;"
+								oncomplete="handleLoginRequest(xhr, status, args)"
+								actionListener="#{auth.validateUsernamePassword}" />
+
+							<br /> <br />
+
+							<div class="forget">
+								<strong>Esqueceu sua senha?</strong> <a
+									onclick="window.open('/minha_senha.cfm','pop','scrollbars=no,width=580,height=164');">Clique
+									aqui.</a>
+							</div>
+
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<footer class="app-footer">
+		<div>
+			<div style="float: left" align="right">© 2017 - 2017 NFX - O
+				melhor sistema. Todos os direitos reservados</div>
+
+
+			<div align="right">
+				<p:clock></p:clock>
+			</div>
+
+		</div>
+		</footer>
+	</div>
+
+
+<script>
+   $(document).ready(function(){
+       $(".form_requerido").bValidator({position: {x: 'center', y: 'top'}});
+       $('[placeholder]').simplePlaceholder();
+   });
+</script>
+	<iframe name="i_login" id="i_login" width="0" height="0"></iframe>
+</h:body>
+
+</html>
