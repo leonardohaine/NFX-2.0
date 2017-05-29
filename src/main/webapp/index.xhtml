@@ -131,6 +131,19 @@ geral.css: 1
 	text-decoration: none;
 	background: white;
 }
+
+.footer {
+  min-height: 30px;
+  padding: 0 1rem;
+  line-height: 30px;
+  color: #263238;
+  background: #eceff1;
+  border-top: 1px solid #cfd8dc; 
+  width: 100%;
+  bottom:0;
+  position: fixed;
+}
+
 </style>
 </h:head>
 
@@ -159,7 +172,7 @@ geral.css: 1
 							<span class="linha" id="span_error">Faça seu login</span>
 						</div>
 						
-						<h:outputLabel style="background-color: red;" value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+						<h:outputLabel style=" border-bottom: thick double red;" value="${SPRING_SECURITY_LAST_EXCEPTION.message == 'Bad credentials' ? 'Usuário ou senha inválido.' : ''}"/>
 						<div class="input-group">
 
 							<p:inputText class="form-control" value="#{auth.user}"
@@ -197,14 +210,14 @@ geral.css: 1
 				</div>
 			</div>
 		</div>
-		<footer class="app-footer">
+		<footer class="footer">
 		<div>
 			<div style="float: left" align="right">© 2017 - 2017 NFX - O
 				melhor sistema. Todos os direitos reservados</div>
 
 
 			<div align="right">
-				<p:clock></p:clock>
+				<p:clock pattern="HH:mm:ss - dd/MM/yyyy"></p:clock>
 			</div>
 
 		</div>

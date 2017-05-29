@@ -68,7 +68,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addRedirectViewController("/", "/templates/principal.jsf");
+		registry.addRedirectViewController("/", "/principal.jsf");
 	}
 	
 	

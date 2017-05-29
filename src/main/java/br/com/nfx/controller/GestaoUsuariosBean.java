@@ -3,10 +3,11 @@ package br.com.nfx.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -14,6 +15,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import br.com.nfx.model.Role;
 import br.com.nfx.model.Usuario;
@@ -69,11 +71,18 @@ public class GestaoUsuariosBean implements Serializable {
 	
 	public void salvar() {
 		usuarioEdicao.setRole(roleModel.getTarget());
-		cadastroUsuario.salvar(usuarioEdicao);
-		consultar();
-		
-		messages.info("Usuário salvo com sucesso!");
-		//Messages.addGlobalInfo("mensagem omni faces");
+		try{
+			
+			if(usuarios.findByLogin(usuarioEdicao.getLogin()) != null){
+				FacesMessage message = new FacesMessage("Usuário já existe!");
+				throw new ValidatorException(message);
+			}
+			cadastroUsuario.salvar(usuarioEdicao);
+			consultar();
+			messages.info("Usuário salvo com sucesso!");
+		}catch (DataIntegrityViolationException e) {
+			
+		}
 		
 		RequestContext.getCurrentInstance().update(
 				Arrays.asList("frm:msgs", "frm:usuarios-table"));

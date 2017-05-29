@@ -12,8 +12,8 @@
 			<f:viewAction action="#{gestaoTitulosBean.consultar}" />
 		</f:metadata>
 	
-		<h1>Cadastro de Titulos</h1>
-	
+		<h1>Cadastro de Títulos</h1>
+		
 		<h:form id="frm" >
 	
 			<p:messages id="msgs" />
@@ -62,9 +62,9 @@
 			</p:toolbar>
 	
 			<p:dataTable value="#{gestaoTitulosBean.todosTitulos}" var="titulo" widgetVar="tabela-titulos"
-					emptyMessage="Nenhuma título cadastrado." rows="10" 
-					paginator="true" paginatorPosition="bottom"
-					style="margin-top: 10px" id="titulos-table"
+					emptyMessage="Nenhuma título cadastrado." rows="10" reflow="true"
+					paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5, 10, 15" 
+					style="margin-top: 10px;" id="titulos-table"
 					selection="#{gestaoTitulosBean.tituloSelecionado}"
 					filteredValue="#{gestaoTitulosBean.titulosFiltrados}"
 					selectionMode="single" rowKey="#{titulo.id}">
@@ -74,9 +74,10 @@
 				
 				<f:facet name="header">
 					<div align="right">
-			            <p:outputPanel>
-			                <p:outputLabel value="Pesquisa: " />
-			                <p:inputText id="globalFilter" onkeyup="PF('tabela-titulos').filter()" style="width:250px" placeholder="pesquisa de títulos"/>
+			            <p:outputPanel id="panelFilter">
+			                <p:outputLabel value=" " />
+			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-titulos').filter()" style="width:250px" placeholder="pesquisa de títulos"/>
+			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
 			            </p:outputPanel>
 		            </div>
 		        </f:facet>
@@ -86,15 +87,15 @@
 					<h:outputText value="#{titulo.descricao}" />
 				</p:column>
 				
-				<p:column headerText="Valor" width="100" styleClass="columnRight">
+				<p:column headerText="Valor" width="110" styleClass="columnLeft">
 					<p:outputLabel value="#{titulo.valor}" >
-						<f:convertNumber type="currency" currencySymbol="R$" currencyCode="BRL" pattern="#,##0.00" locale="pt_BR"/>
+						<f:convertNumber type="currency" currencySymbol="R$" currencyCode="BRL" pattern="R$ #,##0.00" locale="pt_BR"/>
 					</p:outputLabel>
 				</p:column>
 				
 				<p:column headerText="Multa" width="100" styleClass="columnRight">
 					<p:outputLabel value="#{titulo.multaMes}" >
-						<f:convertNumber type="currency" currencySymbol="R$" currencyCode="BRL" pattern="#,##0.00" locale="pt_BR"/>
+						<f:convertNumber type="currency" currencySymbol="R$" pattern="R$ #,##0.00" />
 					</p:outputLabel>
 				</p:column>
 				
@@ -126,60 +127,73 @@
 						<f:setPropertyActionListener value="#{titulo}" target="#{gestaoTitulosBean.tituloEdicao}" />
 					</p:commandLink>
 				</p:column>
+				
+				<f:facet name="footer">
+			        Total de registros:  #{gestaoTitulosBean.todosTitulos.size()}
+			    </f:facet>
+				
 			</p:dataTable>
 		
-			<p:dialog header="Novo título" widgetVar="edicaoTituloDialog" id="titulo-dialog"
-					resizable="false" modal="false" closeOnEscape="true">
+			<p:dialog header="Novo título" widgetVar="edicaoTituloDialog" id="titulo-dialog" 
+					fitViewport="true" style="margin-top: 50px;" showEffect="fade" hideEffect="fade"
+					resizable="false" modal="false" closeOnEscape="true" responsive="true">
 				
 				<p:messages id="msgs-dialog" />
 				<p:defaultCommand target="salvar-button" scope="titulo-dialog" />
 				
-				<h:panelGrid columns="2" id="painel-dialog">
-					<p:outputLabel value="Descrição" for="descricao" />
-					<p:inputText id="descricao" size="50" maxlength="80" 
-						value="#{gestaoTitulosBean.tituloEdicao.descricao}" />
-					
-					<p:outputLabel value="Data Vencimento" for="dataVencimento" />
-					<p:calendar id="dataVencimento" size="5" maxlength="20" dir="rtl"
-						value="#{gestaoTitulosBean.tituloEdicao.dataVencimento}" showOn="button"
-						locale="pt_BR" showButtonPanel="true" navigator="true"
-					/>
-					
-					<p:outputLabel value="Valor" for="valor" />
-					<p:inputNumber  id="valor" size="20" maxlength="120" style="width: 200px !important"
-						decimalSeparator="," thousandSeparator="."
-						value="#{gestaoTitulosBean.tituloEdicao.valor}" >
-						
-					</p:inputNumber >
-						
-					<p:outputLabel value="Multa" for="multa" />
-					<p:inputNumber id="multa" size="20" maxlength="120"
-						decimalSeparator="," thousandSeparator="."
-						value="#{gestaoTitulosBean.tituloEdicao.multaMes}" >
-						
-					</p:inputNumber>		
-					
-					<p:outputLabel value="Categoria" for="categoria" />
-					<p:selectOneMenu id="categoria" value="#{gestaoTitulosBean.tituloEdicao.categoria}">
-						<f:selectItem itemLabel="Selecione" />
-						<f:selectItems value="#{gestaoTitulosBean.todasCategoriasTitulo()}" var="categoria"
-							itemLabel="#{categoria.descricao}" itemValue="#{categoria}" />
-					</p:selectOneMenu>
-					
-					<p:outputLabel value="Tipo" for="tipo" />
-					<p:selectOneMenu id="tipo" value="#{gestaoTitulosBean.tituloEdicao.status}">
-						<f:selectItem itemLabel="Selecione" />
-						<f:selectItems value="#{gestaoTitulosBean.todosStatusTitulo()}" var="status"
-							itemLabel="#{status.descricao}" itemValue="#{status}" />
-					</p:selectOneMenu>
-					
-					<p:outputLabel/>
-					<p:commandButton value="Salvar" id="salvar-button"
-						action="#{gestaoTitulosBean.salvar}"
-						process="titulo-dialog" update="msgs-dialog painel-dialog"
-						oncomplete="if (!args.validationFailed) PF('edicaoTituloDialog').hide()" />
-						
-				</h:panelGrid>
+				<div class="ui-fluid">
+					<p:scrollPanel mode="native" style="max-height:500px">
+						<p:panelGrid columns="2" id="painel-dialog" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
+							<p:outputLabel value="Descrição" for="descricao" />
+							<p:inputText id="descricao" size="40" maxlength="80" 
+								value="#{gestaoTitulosBean.tituloEdicao.descricao}" />
+							
+							<p:outputLabel value="Data Vencimento" for="dataVencimento" />
+							<p:calendar id="dataVencimento" size="5" maxlength="20" dir="ltr" mask="99/99/9999"
+								value="#{gestaoTitulosBean.tituloEdicao.dataVencimento}" showOn="button"
+								locale="pt_BR" showButtonPanel="true" navigator="true" pattern="dd/MM/yyyy"
+							/>
+							
+							<p:outputLabel value="Valor" for="valor" />
+							<p:inputNumber  id="valor" size="20" maxlength="120" style="width: 200px !important"
+								decimalSeparator="," thousandSeparator="."
+								value="#{gestaoTitulosBean.tituloEdicao.valor}" >
+								
+							</p:inputNumber >
+								
+							<p:outputLabel value="Multa" for="multa" />
+							<p:inputNumber id="multa" size="20" maxlength="120"
+								decimalSeparator="," thousandSeparator="."
+								value="#{gestaoTitulosBean.tituloEdicao.multaMes}" >
+								
+							</p:inputNumber>		
+							
+							<p:outputLabel value="Categoria" for="categoria" />
+							<p:selectOneMenu id="categoria" value="#{gestaoTitulosBean.tituloEdicao.categoria}">
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItems value="#{gestaoTitulosBean.todasCategoriasTitulo()}" var="categoria"
+									itemLabel="#{categoria.descricao}" itemValue="#{categoria}" />
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Tipo" for="tipo" />
+							<p:selectOneMenu id="tipo" value="#{gestaoTitulosBean.tituloEdicao.status}">
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItems value="#{gestaoTitulosBean.todosStatusTitulo()}" var="status"
+									itemLabel="#{status.descricao}" itemValue="#{status}" />
+							</p:selectOneMenu>
+							
+							<p:commandLink value="Fechar" process="titulo-dialog" onclick="PF('edicaoTituloDialog').hide()" />
+							
+							<p:commandButton value="Salvar" id="salvar-button"
+								action="#{gestaoTitulosBean.salvar}"
+								process="titulo-dialog" update="msgs-dialog painel-dialog"
+								oncomplete="if (!args.validationFailed) PF('edicaoTituloDialog').hide()" />
+							
+							<p:outputLabel/>
+							<p:outputLabel/>
+						</p:panelGrid>
+					</p:scrollPanel>
+				</div>
 			</p:dialog>
 		
 		</h:form>

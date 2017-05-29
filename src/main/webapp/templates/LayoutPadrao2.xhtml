@@ -101,10 +101,10 @@
 <!--             </li> -->
 				<li>
 				<h:form>
-					<p:menubar>
-						<p:submenu label="Leonardo" icon="fa  fa-user">
-							<p:menuitem value="Alterar senha" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-							<p:menuitem value="Sair" url="http://www.primefaces.org" icon="fa  fa-sign-out" />
+					<p:menubar style="width: 110px;">
+						<p:submenu label="Leonardo" icon="ui-icon-person" >
+							<p:menuitem value="Alterar senha" url="#" icon="ui-icon ui-icon-key" />
+							<p:menuitem value="Sair" url="./index.jsf" icon="ui-icon ui-icon-power" />
 						</p:submenu>
 					</p:menubar>
 				</h:form>
@@ -132,16 +132,16 @@
                         <a class="nav-link" href="./principal.jsf"><i class="fa fa-home"></i> Dashboard </a> <!--  <span class="badge badge-info">NEW</span>  -->
                     </li>
 
-                    <li class="nav-title">
-                        UI Elements
-                    </li>
+                  <!--   <li class="nav-title">  
+                        Menu
+                    </li> -->
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-book"></i>Cadastro</a>
                         <ul class="nav-dropdown-items">
                             
                             <sec:authorize access="hasAuthority('GESTAO_USUARIOS')">
 	                           	<li class="nav-item">
-	                         		<a class="nav-link" href="../GestaoUsuarios.jsf"><i /><i class="fa fa-user"></i> Usuários</a>
+	                         		<a class="nav-link" href="./GestaoUsuarios.jsf"><i /><i class="fa fa-user"></i> Usuários</a>
 						      	</li>
 					      	</sec:authorize>
 					      	<sec:authorize access="hasAuthority('GESTAO_TITULOS')">
@@ -150,7 +150,7 @@
 						      	</li>
 					      	</sec:authorize>
 					      	<li class="nav-item">
-					      		<a class="nav-link" href="./listaCliente.jsf"><i /><i class="fa fa-male"></i>Cliente</a>
+					      		<a class="nav-link" href="./GestaoClientes.jsf"><i /><i class="fa fa-male"></i>Cliente</a>
 					      	</li>
 					      	<sec:authorize access="hasAuthority('GESTAO_EMPRESAS')">
 						      	<li class="nav-item">
@@ -161,17 +161,9 @@
 					      	<li class="nav-item">
 					      		<a class="nav-link" href="./listaProduto.jsf"><i /><i class="fa fa-paper"></i>Produtos</a>
 					      	</li>	
-                            
-                            <li class="nav-item">
-                                <a class="nav-link" href="components-social-buttons.html"><i class="icon-puzzle"></i> Social Buttons</a>
-                            </li>
-                            
-                            <li class="nav-item">
-                                <a class="nav-link" href="components-cards.html"><i class="icon-puzzle"></i> Cards</a>
-                            </li>
                         </ul>
                     </li>
-                    <li class="nav-item nav-dropdown">
+                   <!--  <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Icons</a>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
@@ -208,7 +200,7 @@
                                 <a class="nav-link" href="pages-500.html" target="_top"><i class="icon-star"></i> Error 500</a>
                             </li>
                         </ul>
-                    </li>
+                    </li>    -->
 
                 </ul>
             </nav>
@@ -246,8 +238,9 @@
     </div>
 
     <footer class="app-footer">
-        <a href="http://coreui.io">LH</a> © 2017.
-        <span class="float-right">Powered by <a href="http://google.com.br">LH</a>
+        <a href="http://coreui.io">LHaine</a> © 2017.
+        <span class="float-right">
+			<p:clock pattern="HH:mm:ss - dd/MM/yyyy" />- ${environment.getProperty('nfx.version')}
         </span>
     </footer>
 

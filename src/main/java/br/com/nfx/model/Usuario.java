@@ -18,9 +18,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.AssertTrue;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -28,7 +32,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @DynamicUpdate
-@Table(name = "usuario")
+@Table(name = "usuario", uniqueConstraints = @UniqueConstraint(columnNames = { "login" }))
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -37,12 +41,20 @@ public class Usuario implements Serializable {
     @SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario",  allocationSize = 0)
     @Column(name = "id")
     private Long id;
-    @Column(name = "login")
+    
+    @NotEmpty(message = "Login é obrigatório")
+    @Column(name = "login", unique=true)
     private String login;
+    
+    @NotEmpty(message = "Nome é obrigatório")
     @Column(name = "nome")
     private String nome;
+    
+    @NotEmpty(message = "E-mail é obrigatório")
+    @Email
     @Column(name = "email")
     private String email;
+    
     @Column(name = "senha", updatable=false)
     private String senha;
     
@@ -54,7 +66,7 @@ public class Usuario implements Serializable {
     @Column(name = "ativo")
     private Boolean ativo;
     
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "usuario_id")
     private List<Role> role;
 
@@ -129,6 +141,11 @@ public class Usuario implements Serializable {
 		this.role = role;
 	}
     
+	@AssertTrue(message = "Senha diferente - digite novamente")
+    public boolean isPasswordsEquals() {
+		return senha.equals(senha);
+    }
+	
     @Override
     public int hashCode() {
         int hash = 0;

@@ -8,10 +8,10 @@
 	
 	<ui:define name="conteudo">
 		<f:metadata>
-			<f:viewAction action="#{gestaoEmpresasBean.consultar}" />
+			<f:viewAction action="#{gestaoClientesBean.consultar}" />
 		</f:metadata>
 	
-		<h1>Cadastro de Empresas</h1>
+		<h1>Cadastro de Clientes</h1>
 	
 		<h:form id="frm">
 	
@@ -20,10 +20,10 @@
 			<p:toolbar id="toolbar">
 				<f:facet name="left">
 					<p:commandButton value="Nova" icon="ui-icon-document"
-						action="#{gestaoEmpresasBean.prepararNovoCadastro}"
-						process="@this" update="empresa-dialog"
-						oncomplete="PF('edicaoEmpresaDialog').show()">
-						<p:resetInput target="empresa-dialog" />
+						action="#{gestaoClientesBean.prepararNovoCadastro}"
+						process="@this" update="cliente-dialog"
+						oncomplete="PF('edicaoClienteDialog').show()">
+						<p:resetInput target="cliente-dialog" />
 					</p:commandButton>
 					
 					<span class="ui-separator">
@@ -31,38 +31,38 @@
             		</span>
             		
             		<p:commandButton icon="ui-icon-pencil" title="Editar" 
-            			process="@this" update="empresa-dialog"
-            			oncomplete="PF('edicaoEmpresaDialog').show()"
-            			disabled="#{gestaoEmpresasBean.empresaSelecionada == null}">
-            			<p:resetInput target="empresa-dialog" />
+            			process="@this" update="cliente-dialog"
+            			oncomplete="PF('edicaoClienteDialog').show()"
+            			disabled="#{gestaoClientesBean.clienteSelecionado == null}">
+            			<p:resetInput target="cliente-dialog" />
             			
-            			<f:setPropertyActionListener value="#{gestaoEmpresasBean.empresaSelecionada}" 
-            				target="#{gestaoEmpresasBean.empresaEdicao}" />
+            			<f:setPropertyActionListener value="#{gestaoClientesBean.clienteSelecionado}" 
+            				target="#{gestaoClientesBean.clienteEdicao}" />
             		</p:commandButton>
             		
             		<p:commandButton icon="ui-icon-trash" title="Excluir"
-            			process="@this" update="empresas-table msgs toolbar"
-            			action="#{gestaoEmpresasBean.excluir}"
-            			disabled="#{gestaoEmpresasBean.empresaSelecionada == null}">
+            			process="@this" update="clientes-table msgs toolbar"
+            			action="#{gestaoClientesBean.excluir}"
+            			disabled="#{gestaoClientesBean.clienteSelecionado == null}">
             			
             			<p:confirm icon="ui-icon-alert" header="Confirmação de exclusão"
-            				message="Tem certeza que deseja excluir a empresa?" />
+            				message="Tem certeza que deseja excluir a cliente?" />
             			
             		</p:commandButton>
             		
             		<p:commandButton icon="ui-icon-arrowthick-1-s" title="Exportar para XLS"
             				ajax="false" immediate="true">
-            			<p:dataExporter type="xls" target="empresas-table" fileName="empresas" />
+            			<p:dataExporter type="xls" target="clientes-table" fileName="clientes" />
             		</p:commandButton>
 				</f:facet>
 			</p:toolbar>
 	
-			<p:dataTable value="#{gestaoEmpresasBean.todasEmpresas}" var="empresa" widgetVar="tabela-empresas"
-					emptyMessage="Nenhuma empresa cadastrada." rows="10" reflow="true"
+			<p:dataTable value="#{gestaoClientesBean.todosClientes}" var="cliente" widgetVar="tabela-clientes"
+					emptyMessage="Nenhuma cliente cadastrada." rows="10" reflow="true"
 					paginator="true" paginatorPosition="bottom"
-					style="margin-top: 10px" id="empresas-table"
-					selection="#{gestaoEmpresasBean.empresaSelecionada}"
-					selectionMode="single" rowKey="#{empresa.id}">
+					style="margin-top: 10px" id="clientes-table"
+					selection="#{gestaoClientesBean.clienteSelecionado}"
+					selectionMode="single" rowKey="#{cliente.id}">
 				
 				<p:ajax event="rowSelect" update=":frm:toolbar" />
 				<p:ajax event="rowUnselect" update=":frm:toolbar" />
@@ -71,43 +71,53 @@
 					<div align="right">
 			            <p:outputPanel id="panelFilter">
 			                <p:outputLabel value=" " />
-			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-empresas').filter()" style="width:250px" placeholder="pesquisa de empresas"/>
+			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-clientes').filter()" style="width:250px" placeholder="pesquisa de clientes"/>
 			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
 			            </p:outputPanel>
 		            </div>
 		        </f:facet>
 				
-				<p:column headerText="Razão social" sortBy="#{empresa.razaoSocial}" filterBy="#{empresa.razaoSocial}"
+				<p:column headerText="Razão social" sortBy="#{cliente.razaoSocial}" filterBy="#{cliente.razaoSocial}"
 					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					<h:outputText value="#{empresa.razaoSocial}" />
+					<h:outputText value="#{cliente.razaoSocial}" />
 				</p:column>
 				
 				<p:column headerText="Nome fantasia" width="250">
-					<h:outputText value="#{empresa.nomeFantasia}" />
+					<h:outputText value="#{cliente.razaoSocial}" />
 				</p:column>
 				
-				<p:column headerText="CNPJ" width="140" sortBy="#{empresa.cnpj}" filterBy="#{empresa.cnpj}"
+				<p:column headerText="CNPJ" width="140" sortBy="#{cliente.cnpj}" filterBy="#{cliente.cnpj}"
 					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					<h:outputText value="#{empresa.cnpj}" />
-				</p:column>
-				
-				<p:column headerText="Tipo" width="250">
-					<h:outputText value="#{empresa.tipo.descricao}" />
+					<h:outputText value="#{cliente.cnpj}" />
 				</p:column>
 				
 				<p:column headerText="Ativo" width="50" styleClass="columnCenter" >
 				<p:graphicImage library="nfx" 
-					name="#{empresa.ativo ? 'layout/images/ledgreen22.png' : 'layout/images/ledred22.png'}" />
+					name="#{cliente.ativo ? 'layout/images/ledgreen22.png' : 'layout/images/ledred22.png'}" />
 				</p:column>
 				
 			</p:dataTable>
 		
-			<p:dialog header="Nova empresa" widgetVar="edicaoEmpresaDialog" id="empresa-dialog" 
+			<p:dialog header="Novo cliente" widgetVar="edicaoClienteDialog" id="cliente-dialog" 
 					fitViewport="true" style="margin-top: 30px;" showEffect="fade" hideEffect="fade"
 					height="500" responsive="true" resizable="false" modal="false" closeOnEscape="true" >
 				
 				<p:messages id="msgs-dialog" />
-				<p:defaultCommand target="salvar-button" scope="empresa-dialog" />
+				<p:defaultCommand target="salvar-button" scope="cliente-dialog" />
+				
+				<p:panel header="Cadastro">
+					
+<!-- 					<h:inputHidden id="clienteId" value="${clienteBean.cliente.clienteId}" /> -->
+					
+					<p:outputLabel for="cadastro" value="Tipo Cadastro:" />
+					<p:selectOneMenu id="cadastro"
+						value="${gestaoClientesBean.clienteEdicao.tipoCadastro}" style="width:225px">
+						<f:selectItem itemLabel="Selecione o tipo de cadastro" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItem itemLabel="Cliente" itemValue="C" />
+						<f:selectItem itemLabel="Fornecedor" itemValue="F" />
+						<f:selectItem itemLabel="Transportadora" itemValue="T" />
+					</p:selectOneMenu>
+				</p:panel>
 				
 				<div class="ui-fluid">
 					<p:panelGrid columns="4" layout="grid" id="painel-dialog"
@@ -119,42 +129,28 @@
 						
 						<p:outputLabel value="Nome fantasia" for="nome-fantasia" />
 						<p:inputText id="nome-fantasia" size="60" maxlength="80" 
-							value="#{gestaoEmpresasBean.empresaEdicao.nomeFantasia}" />
+							value="#{gestaoClientesBean.clienteEdicao.razaoSocial}" />
 						
 						<p:outputLabel value="Razão social" for="razao-social" />
 						<p:inputText id="razao-social" size="60" maxlength="120"
-							value="#{gestaoEmpresasBean.empresaEdicao.razaoSocial}" />
+							value="#{gestaoClientesBean.clienteEdicao.razaoSocial}" />
 						
 						<p:outputLabel value="CNPJ" for="cnpj" />
 						<p:inputMask id="cnpj" size="18" maxlength="18"
-							value="#{gestaoEmpresasBean.empresaEdicao.cnpj}"
+							value="#{gestaoClientesBean.clienteEdicao.cnpj}"
 							mask="99.999.999/9999-99" />
 							
 						<p:outputLabel value="IE" for="ie" />
 						<p:inputText id="ie" size="18" maxlength="14"
-							value="#{gestaoEmpresasBean.empresaEdicao.inscricaoEstadual}" />
+							value="#{gestaoClientesBean.clienteEdicao.inscricaoEstadual}" />
 							
 						<p:outputLabel value="IM" for="im" />
 						<p:inputText id="im" size="18" maxlength="14"
-							value="#{gestaoEmpresasBean.empresaEdicao.inscricaoMunicipal}" />
-						
-						<p:outputLabel value="Data de fundação" for="data-fundacao" />
-						<p:calendar id="data-fundacao" size="10"
-							value="#{gestaoEmpresasBean.empresaEdicao.dataFundacao}" 
-							showOn="button" pattern="dd/MM/yyyy" mask="99/99/9999"
-							locale="pt_BR" showButtonPanel="true" navigator="true"
-							 />
-						
-						<p:outputLabel value="Tipo" for="tipo" />
-						<p:selectOneMenu id="tipo" value="#{gestaoEmpresasBean.empresaEdicao.tipo}" style="width: 200px;">
-							<f:selectItem itemLabel="Selecione" />
-							<f:selectItems value="#{gestaoEmpresasBean.tiposEmpresas}" var="tipo"
-								itemLabel="#{tipo.descricao}" itemValue="#{tipo}" />
-						</p:selectOneMenu>
+							value="#{gestaoClientesBean.clienteEdicao.inscricaoMunicipal}" />
 						
 						<p:outputLabel value="Regime Tributário" for="regimeTributario" />
 						<p:selectOneMenu id="regimeTributario" style="width:55px" 
-							value="#{gestaoEmpresasBean.empresaEdicao.regimeTributario}">
+							value="#{gestaoClientesBean.clienteEdicao.regimeTributario}">
 							<f:selectItem itemLabel="Selecione" noSelectionOption="false" />
 							<f:selectItem itemLabel="Simples Nacional" itemValue="1" />
 							<f:selectItem itemLabel="Simples Nacional - excesso de sublimite" itemValue="2" />
@@ -163,17 +159,17 @@
 						
 						<p:outputLabel value="Inscrição Suframa" for="insSuframa" />
 						<p:inputText id="insSuframa"
-							value="#{gestaoEmpresasBean.empresaEdicao.suframa}" />
+							value="#{gestaoClientesBean.clienteEdicao.suframa}" />
 
 						<p:outputLabel value="Email" for="email" />
-						<p:inputText id="email" value="#{gestaoEmpresasBean.empresaEdicao.email}" />
+						<p:inputText id="email" value="#{gestaoClientesBean.clienteEdicao.email}" />
 
 						<p:outputLabel value="Telefone" for="telefone" />
-						<p:inputText id="telefone" value="#{gestaoEmpresasBean.empresaEdicao.telefone}" />
+						<p:inputText id="telefone" value="#{gestaoClientesBean.clienteEdicao.telefone}" />
 
 						<p:outputLabel value="Isento ICMS" for="isento" />
 						<p:selectBooleanCheckbox id="isento"
-							value="#{gestaoEmpresasBean.empresaEdicao.isento}" />
+							value="#{gestaoClientesBean.clienteEdicao.isento}" />
 					</p:panelGrid>
 						
 					<p:panelGrid columns="4" layout="grid" id="painel-dialog-end"
@@ -185,27 +181,27 @@
 						
 						<p:outputLabel value="Logradouro" for="logradouro" />
 						<p:inputText id="logradouro"
-							value="#{gestaoEmpresasBean.empresaEdicao.logradouro}" />
+							value="#{gestaoClientesBean.clienteEdicao.logradouro}" />
 
 						<p:outputLabel value="Número" for="numero" />
-						<p:inputText id="numero" value="#{gestaoEmpresasBean.empresaEdicao.numero}" />
+						<p:inputText id="numero" value="#{gestaoClientesBean.clienteEdicao.numero}" />
 
 						<p:outputLabel value="Complemento" for="complemento" />
 						<p:inputText id="complemento" autocomplete="on"
-							value="#{gestaoEmpresasBean.empresaEdicao.complemento}" />
+							value="#{gestaoClientesBean.clienteEdicao.complemento}" />
 
 						<p:outputLabel value="Bairro" for="bairro" />
-						<p:inputText id="bairro" size="10" value="#{gestaoEmpresasBean.empresaEdicao.bairro}" />
+						<p:inputText id="bairro" size="10" value="#{gestaoClientesBean.clienteEdicao.bairro}" />
 
 						<p:outputLabel value="Cep" for="cep" />
-						<p:inputText id="cep" size="20" maxlength="9" value="#{gestaoEmpresasBean.empresaEdicao.cep}" />
+						<p:inputText id="cep" size="20" maxlength="9" value="#{gestaoClientesBean.clienteEdicao.cep}" />
 
 						<p:outputLabel value="País" for="pais" />
-						<p:inputText id="pais" value="#{gestaoEmpresasBean.empresaEdicao.pais}" />
+						<p:inputText id="pais" value="#{gestaoClientesBean.clienteEdicao.pais}" />
 
 						<p:outputLabel value="UF" for="uf" />
-						<p:selectOneMenu id="uf" filter="true" value="#{gestaoEmpresasBean.empresaEdicao.uf}" style="width: 200px">  
-		                    <p:ajax listener="#{gestaoEmpresasBean.selecionarCidade}" update="frm:municipio" partialSubmit="true" />
+						<p:selectOneMenu id="uf" filter="true" value="#{gestaoClientesBean.clienteEdicao.uf}" style="width: 200px">  
+		                    <p:ajax listener="#{gestaoClientesBean.selecionarCidade}" update="frm:municipio" partialSubmit="true" />
 		                    <f:selectItem itemLabel="Selecione UF" itemValue="" noSelectionOption="true" />  
 		                    <f:selectItem itemLabel="AC" itemValue="AC" />  
 		                    <f:selectItem itemLabel="AL" itemValue="AL" />  
@@ -237,25 +233,26 @@
 		                </p:selectOneMenu>
 
 						<p:outputLabel value="Município" for="municipio" />
-						<p:selectOneMenu id="municipio" filter="true" value="#{gestaoEmpresasBean.empresaEdicao.municipio}" style="width: 250px">
-						<p:ajax listener="${gestaoEmpresasBean.selecionarIbgeCidade}" update="frm:municipio " partialSubmit="true" />
+						<p:selectOneMenu id="municipio" filter="true" value="#{gestaoClientesBean.clienteEdicao.municipio}" style="width: 250px">
+						<p:ajax listener="${gestaoClientesBean.selecionarIbgeCidade}" update="frm:municipio " partialSubmit="true" />
 							<f:selectItem itemLabel="Selecione a cidade" itemValue="" />
-							<f:selectItem itemLabel="#{gestaoEmpresasBean.empresaEdicao.municipio}" itemValue="#{gestaoEmpresasBean.empresaEdicao.municipio}" />
-		            		<f:selectItems value="#{gestaoEmpresasBean.listCidade}"  />
-		            	</p:selectOneMenu>#{gestaoEmpresasBean.empresaEdicao.codigoMunicipio}
+							<f:selectItem itemLabel="#{gestaoClientesBean.clienteEdicao.municipio}" itemValue="#{gestaoClientesBean.clienteEdicao.municipio}" />
+		            		<f:selectItems value="#{gestaoClientesBean.listCidade}"  />
+		            	</p:selectOneMenu>
 
-						
-						
 						<p:outputLabel value="Ativo" for="ativo" />
-						<p:selectBooleanButton id="ativo" value="#{gestaoEmpresasBean.empresaEdicao.ativo}"
-							offLabel="Não" onLabel="Sim" 
+						<p:selectBooleanButton id="ativo" value="#{gestaoClientesBean.clienteEdicao.ativo}"
+							offLabel="Não" onLabel="Sim" style="width: 70px;"
 							onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 						
 						<p:outputLabel/>
+						<p:outputLabel/>
+						<p:outputLabel/>
+						<p:outputLabel/>
 						<p:commandButton value="Salvar" id="salvar-button"
-							action="#{gestaoEmpresasBean.salvar}"
-							process="empresa-dialog" update="msgs-dialog painel-dialog"
-							oncomplete="if (!args.validationFailed) PF('edicaoEmpresaDialog').hide()" />
+							action="#{gestaoClientesBean.salvar}"
+							process="cliente-dialog" update="msgs-dialog painel-dialog"
+							oncomplete="if (!args.validationFailed) PF('edicaoClienteDialog').hide()" />
 					</p:panelGrid>
 				</div>
 			</p:dialog>

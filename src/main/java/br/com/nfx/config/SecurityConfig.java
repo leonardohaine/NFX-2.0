@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 		  .authorizeRequests()
 	          .antMatchers("/index.jsf", "/javax.faces.resource/**").permitAll()
-	          //.antMatchers("/error/**").authenticated() // Precisa estar autenticado
+	          .antMatchers("/error/404.jsf", "/error/500.jsf", "/error/403.jsf").permitAll() // Precisa estar autenticado
 	          .antMatchers("/GestaoEmpresas.jsf").hasAuthority("GESTAO_EMPRESAS") // Precisa ter permissão de...
 	          .antMatchers("/GestaoTitulos.jsf").hasAuthority("GESTAO_TITULOS")
 	          .antMatchers("/GestaoUsuarios.jsf").hasAuthority("GESTAO_USUARIOS")
@@ -91,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PersistentTokenRepository persistentTokenRepository() {
 		JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-		tokenRepository.setDataSource(datasource);
+		//tokenRepository.setDataSource(datasource);
 		return tokenRepository;
 	}
 }

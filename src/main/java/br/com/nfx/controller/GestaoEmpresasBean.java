@@ -1,6 +1,7 @@
 package br.com.nfx.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class GestaoEmpresasBean implements Serializable {
 	private Empresa empresaEdicao = new Empresa();
 	private Empresa empresaSelecionada;
 	
+	private List<String> listCidade = new ArrayList<String>();
+	private Integer ibgeCidade;
+	
 	public void prepararNovoCadastro() {
 		empresaEdicao = new Empresa();
 	}
@@ -47,7 +51,6 @@ public class GestaoEmpresasBean implements Serializable {
 		consultar();
 		
 		messages.info("Empresa salva com sucesso!");
-		Messages.addGlobalInfo("mensagem omni faces");
 		
 		RequestContext.getCurrentInstance().update(
 				Arrays.asList("frm:msgs", "frm:empresas-table"));
@@ -66,6 +69,20 @@ public class GestaoEmpresasBean implements Serializable {
 		todasEmpresas = empresas.findAll();
 	}
 
+	public void selecionarCidade(){
+		System.out.println("getCidade: " + empresaEdicao.getUf());
+		listCidade = cadastroEmpresa.getCidade(empresaEdicao.getUf());
+		//RequestContext.getCurrentInstance().update("formCli:municipio");
+	}
+	
+	public void selecionarIbgeCidade(){
+		System.out.println("getIbgeCidade: " + empresaEdicao.getMunicipio());
+		ibgeCidade = Integer.valueOf(cadastroEmpresa.getIbgeCidade(empresaEdicao.getUf(), empresaEdicao.getMunicipio()));
+		empresaEdicao.setCodigoMunicipio(ibgeCidade);
+		System.out.println(ibgeCidade);
+		//RequestContext.getCurrentInstance().update("formCli:municipio");
+	}
+	
 	public List<Empresa> getTodasEmpresas() {
 		return todasEmpresas;
 	}

@@ -74,10 +74,10 @@
 				
 				<f:facet name="header">
 					<div align="right">
-			            <p:outputPanel>
-			                <p:outputLabel value="Pesquisa: " />
-			                <p:inputText id="globalFilter" onkeyup="PF('tabela-usuarios').filter()" 
-			                	style="width:250px" placeholder="pesquisa de usuários"/>
+			            <p:outputPanel id="panelFilter">
+			                <p:outputLabel value=" " />
+			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-usuarios').filter()" style="width:250px" placeholder="pesquisa de usuários"/>
+			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
 			            </p:outputPanel>
 		            </div>
 		        </f:facet>
@@ -110,7 +110,7 @@
 			</p:dataTable>
 		
 			<p:dialog header="Novo usuário" widgetVar="edicaoUsuarioDialog" id="usuario-dialog"
-					height="450"
+					height="500" responsive="true"
 					resizable="false" modal="false" closeOnEscape="true">
 				
 				<p:messages id="msgs-dialog" />
@@ -131,17 +131,24 @@
 						value="#{gestaoUsuariosBean.usuarioEdicao.email}" />
 						
 					<p:outputLabel value="Senha" for="senha" />
-					<p:password id="senha" size="60" maxlength="60" style="width: 200px;"
-						value="#{gestaoUsuariosBean.usuarioEdicao.senha}" />
+					<p:password id="senha" size="60" maxlength="60" style="width: 200px;" feedback="true"
+						weakLabel="Fácil" goodLabel="Boa" strongLabel="Difícil" promptLabel="Digite a senha"
+						match="senhac" value="#{gestaoUsuariosBean.usuarioEdicao.senha}" />
+						
+					<p:outputLabel value="Confirma Senha" for="senhac" />	
+					<p:password id="senhac" size="60" maxlength="60" style="width: 200px;" 
+						validatorMessage="As senhas não coincidem"
+						value="#{gestaoUsuariosBean.usuarioEdicao.senha}" >
+						
+					</p:password>	
 						
 					<p:outputLabel value="Permissões" for="pickList" />
-						
 					<p:pickList id="pickList" value="#{gestaoUsuariosBean.roleModel}" 
 						converter="rolePickListConverter"
 						var="role" itemLabel="#{role.descricao}" itemValue="#{role}" >
 						
-						<f:facet name="sourceCaption">Permissões</f:facet>  
-		        		<f:facet name="targetCaption">Permissões selecionadas</f:facet> 
+						<f:facet name="sourceCaption">Desabilitadas</f:facet>  
+		        		<f:facet name="targetCaption">Habilitadas</f:facet> 
 						
 					</p:pickList>	
 						
@@ -149,8 +156,6 @@
 					<p:selectBooleanButton id="ativo" value="#{gestaoUsuariosBean.usuarioEdicao.ativo}"
 						offLabel="Não" onLabel="Sim" 
 						onIcon="ui-icon-check" offIcon="ui-icon-close"/>
-					
-					<p:commandButton value="PickList" id="update-button"  update="pickList" />
 					
 					<p:outputLabel/>
 					<p:commandButton value="Salvar" id="salvar-button"

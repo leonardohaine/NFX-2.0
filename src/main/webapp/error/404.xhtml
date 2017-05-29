@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/templates/LayoutPadrao2.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -25,13 +25,11 @@
 			Verifique se a URL está correta ou entre em contato com a gente se precisar de ajuda.
 			<br/><br/>
 			<h:form>
-				<p:commandButton icon="fa  fa-sign-out" width="25" title="Sair do sistema" 
-					onclick="logout()" />
-					<p:remoteCommand name="logout" actionListener="#{auth.logout()}" />
-				
-				<a href="javascript:history.back()" class="btn  btn-primary"><em class="fa  fa-arrow-left"></em> Voltar</a>
-				<a href="/views/principal.jsf" class="btn  btn-primary" ><em class="fa  fa-home"></em> Home</a>
-				<a href="/logout" class="btn  btn-primary"><em class="fa  fa-sign-out"></em> Logout</a>
+				<a href="javascript:history.back()" class="btn  btn-primary" title="Voltar"><em class="fa  fa-arrow-left"></em> Voltar</a> 
+				<a href="./principal.xhtml" class="btn  btn-primary" title="Página inicial"><em class="fa  fa-home"></em> Início</a> 
+				<p:commandLink actionListener="#{auth.logout()}" class="btn  btn-primary" title="Sair do sistema">
+					<span class="fa  fa-sign-out"> Logout</span>
+				</p:commandLink>
 			</h:form>
 		</div>
 	</div>	

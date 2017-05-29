@@ -118,12 +118,13 @@ public class LoginBean implements Serializable {
 		System.out.println("LOGOUT");
 
 		ExternalContext con = FacesContext.getCurrentInstance().getExternalContext();
-//		try {
-//			con.redirect(con.getRequestContextPath() + "/index.jsf");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//isSessionValid();
+		try {
+			con.redirect(con.getRequestContextPath() + "/index.jsf");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "index";
 	}
 

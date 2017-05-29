@@ -7,5 +7,6 @@ import br.com.nfx.model.Usuario;
 public interface Usuarios extends JpaRepository<Usuario, Long> {
 	
 	public Usuario findByLoginAndSenha(String login, String senha);
+	public Usuario findByLogin(String login);
 
 }
