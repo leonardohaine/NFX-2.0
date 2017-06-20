@@ -82,8 +82,8 @@
 					<h:outputText value="#{cliente.razaoSocial}" />
 				</p:column>
 				
-				<p:column headerText="Nome fantasia" width="250">
-					<h:outputText value="#{cliente.razaoSocial}" />
+				<p:column headerText="Tipo" width="150" styleClass="columnCenter">
+					<h:outputText value="#{cliente.tipoCadastro == 'F' ? 'Fornecedor' : cliente.tipoCadastro == 'C' ? 'Cliente' : 'Transportadora'}" />
 				</p:column>
 				
 				<p:column headerText="CNPJ" width="140" sortBy="#{cliente.cnpj}" filterBy="#{cliente.cnpj}"
@@ -100,7 +100,7 @@
 		
 			<p:dialog header="Novo cliente" widgetVar="edicaoClienteDialog" id="cliente-dialog" 
 					fitViewport="true" style="margin-top: 30px;" showEffect="fade" hideEffect="fade"
-					height="500" responsive="true" resizable="false" modal="false" closeOnEscape="true" >
+					height="460" width="1000" responsive="true" resizable="false" modal="false" closeOnEscape="true" >
 				
 				<p:messages id="msgs-dialog" />
 				<p:defaultCommand target="salvar-button" scope="cliente-dialog" />

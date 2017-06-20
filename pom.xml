@@ -65,6 +65,18 @@
 		</dependency>
 		
 		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-jersey</artifactId>
+	    </dependency>
+	    
+	    <dependency>
+		    <groupId>org.glassfish.hk2</groupId>
+		    <artifactId>class-model</artifactId>
+		    <version>2.5.0-b32</version>
+		</dependency>
+	    
+		
+		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>1.0.10</version>

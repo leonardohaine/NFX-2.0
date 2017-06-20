@@ -41,6 +41,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authoritiesByUsernameQuery(rolesQuery)
 			.dataSource(datasource)
 			.passwordEncoder(bCryptPasswordEncoder)
+			.withDefaultSchema()
+			.withUser("haine").password("leonardo").authorities("GESTAO_EMPRESAS",
+																"GESTAO_CLIENTES",
+																"ACESSO_APLICACAO", 
+																"GESTAO_TITULOS", 
+																"GESTAO_USUARIOS", 
+																"ADMINISTRADORES",
+																"API_TITULOS")
 			;
 		 
 		//System.out.println("AUTHENTICATION DETAILS: " + authentication.getDetails());
@@ -66,7 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	          .antMatchers("/GestaoEmpresas.jsf").hasAuthority("GESTAO_EMPRESAS") // Precisa ter permissão de...
 	          .antMatchers("/GestaoTitulos.jsf").hasAuthority("GESTAO_TITULOS")
 	          .antMatchers("/GestaoUsuarios.jsf").hasAuthority("GESTAO_USUARIOS")
-	          .antMatchers("/relatorios/**").hasAnyRole("ADMINISTRADORES", "VENDEDORES")
+	          .antMatchers("/principal.jsf").hasAuthority("ACESSO_APLICACAO")
+	          //.antMatchers("/api/**").hasAuthority("API_TITULOS")
 	          .antMatchers("/usuarios/**").hasAnyRole("ADMINISTRADORES")
 				.and()
 			.formLogin()

@@ -33,11 +33,6 @@ public class CadastroClienteService implements Serializable {
 	}
 	
 	public List<String> getCidade(String uf) {
-//		List<String> mun = ArrayList<String>;
-//		for(String municipio : cidades.findBySiglaUf(uf)){
-//			mun.add(municipio);
-//		}
-		
 		return cidades.findBySiglaUf(uf);
 	}
 	

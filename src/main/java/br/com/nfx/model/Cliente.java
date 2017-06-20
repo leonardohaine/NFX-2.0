@@ -8,6 +8,7 @@ package br.com.nfx.model;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+import javax.inject.Named;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ import lombok.Data;
  *
  * @author Leonardo
  */
+
 @Entity
 @Data
 public class Cliente implements Serializable {

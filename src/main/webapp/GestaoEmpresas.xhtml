@@ -240,7 +240,7 @@
 						<p:selectOneMenu id="municipio" filter="true" value="#{gestaoEmpresasBean.empresaEdicao.municipio}" style="width: 250px">
 						<p:ajax listener="${gestaoEmpresasBean.selecionarIbgeCidade}" update="frm:municipio " partialSubmit="true" />
 							<f:selectItem itemLabel="Selecione a cidade" itemValue="" />
-							<f:selectItem itemLabel="#{gestaoEmpresasBean.empresaEdicao.municipio}" itemValue="#{gestaoEmpresasBean.empresaEdicao.municipio}" />
+							
 		            		<f:selectItems value="#{gestaoEmpresasBean.listCidade}"  />
 		            	</p:selectOneMenu>#{gestaoEmpresasBean.empresaEdicao.codigoMunicipio}
 
